@@ -1,0 +1,6 @@
+{
+  "preset": "ts-jest",
+  "exclude": [
+    "./jest.config.ts"
+  ]
+}
