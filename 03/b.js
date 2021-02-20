@@ -1,0 +1,10 @@
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var houseGrid_1 = require("../models/houseGrid");
+var pathName = path.join(__dirname, './input.txt');
+var inputString = fs.readFileSync(pathName, 'utf-8');
+var formattedInputString = inputString.slice(0, inputString.length - 1);
+var houseGrid = new houseGrid_1.HouseGrid(formattedInputString, true);
+console.log(houseGrid.getNumHousesWithAtLeastOnePresent());

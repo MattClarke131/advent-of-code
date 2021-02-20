@@ -1,9 +1,11 @@
 export class HouseGrid {
   houses: object
 
-  constructor(inputString: string) {
+  constructor(inputString: string, isRobotHelping: boolean = false) {
     this.houses = {}
-    this.visitAllHouses(inputString)
+    isRobotHelping ?
+      this.visitAllHousesWithRoboSanta(inputString) :
+      this.visitAllHouses(inputString)
   }
 
   public getNumHousesWithAtLeastOnePresent() {
@@ -48,6 +50,48 @@ export class HouseGrid {
       }
 
       this.visitHouse(x,y)
+
+      i++
+    }
+  }
+
+  private visitAllHousesWithRoboSanta(instructions: string) {
+    let santa = {
+      x: 0,
+      y: 0
+    }
+    let robot = {
+      x: 0,
+      y: 0
+    }
+    let i = 0
+
+    this.visitHouse(0,0)
+    while (i < instructions.length) {
+      const instruction = instructions[i]
+
+      switch (instruction) {
+        case '<': {
+          i % 2 === 0 ? santa.x-- : robot.x--
+          break;
+        }
+        case '>': {
+          i % 2 === 0 ? santa.x++ : robot.x++
+          break;
+        }
+        case '^': {
+          i % 2 === 0 ? santa.y++ : robot.y++
+          break;
+        }
+        case 'v': {
+          i % 2 === 0 ? santa.y-- : robot.y--
+          break;
+        }
+      }
+
+      i % 2 === 0 ?
+        this.visitHouse(santa.x, santa.y) :
+        this.visitHouse(robot.x,robot.y)
 
       i++
     }

@@ -2,9 +2,12 @@
 exports.__esModule = true;
 exports.HouseGrid = void 0;
 var HouseGrid = /** @class */ (function () {
-    function HouseGrid(inputString) {
+    function HouseGrid(inputString, isRobotHelping) {
+        if (isRobotHelping === void 0) { isRobotHelping = false; }
         this.houses = {};
-        this.visitAllHouses(inputString);
+        isRobotHelping ?
+            this.visitAllHousesWithRoboSanta(inputString) :
+            this.visitAllHouses(inputString);
     }
     HouseGrid.prototype.getNumHousesWithAtLeastOnePresent = function () {
         return this.getAllHouses().length;
@@ -41,6 +44,43 @@ var HouseGrid = /** @class */ (function () {
                 }
             }
             this.visitHouse(x, y);
+            i++;
+        }
+    };
+    HouseGrid.prototype.visitAllHousesWithRoboSanta = function (instructions) {
+        var santa = {
+            x: 0,
+            y: 0
+        };
+        var robot = {
+            x: 0,
+            y: 0
+        };
+        var i = 0;
+        this.visitHouse(0, 0);
+        while (i < instructions.length) {
+            var instruction = instructions[i];
+            switch (instruction) {
+                case '<': {
+                    i % 2 === 0 ? santa.x-- : robot.x--;
+                    break;
+                }
+                case '>': {
+                    i % 2 === 0 ? santa.x++ : robot.x++;
+                    break;
+                }
+                case '^': {
+                    i % 2 === 0 ? santa.y++ : robot.y++;
+                    break;
+                }
+                case 'v': {
+                    i % 2 === 0 ? santa.y-- : robot.y--;
+                    break;
+                }
+            }
+            i % 2 === 0 ?
+                this.visitHouse(santa.x, santa.y) :
+                this.visitHouse(robot.x, robot.y);
             i++;
         }
     };
