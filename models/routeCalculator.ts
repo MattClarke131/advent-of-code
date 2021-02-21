@@ -36,6 +36,13 @@ export class RouteCalculator {
     return Math.min(...distances)
   }
 
+  public calculateLongestRoute() {
+    const locationPermutations = this.getPermutations(this.locations)
+    const distances = locationPermutations.map( l => this.getDistanceFromLocations(l) )
+
+    return Math.max(...distances)
+  }
+
   private getPermutations(inputArray: any[]) {
     let permutation = inputArray.map(x => x),
         length = permutation.length,

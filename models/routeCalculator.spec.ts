@@ -14,4 +14,17 @@ describe('RouteCalculator', () => {
       expect(actual).toBe(605)
     })
   })
+  describe('calculateLongestRoute', () => {
+    test('shortest distance should be 982', () => {
+      const rawDistancesArray = [
+        'London to Dublin = 464',
+        'London to Belfast = 518',
+        'Dublin to Belfast = 141',
+      ]
+      const routeCalculator = new RouteCalculator(rawDistancesArray)
+      const actual = routeCalculator.calculateLongestRoute()
+
+      expect(actual).toBe(982)
+    })
+  })
 })

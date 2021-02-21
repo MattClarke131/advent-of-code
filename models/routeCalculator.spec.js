@@ -14,4 +14,16 @@ describe('RouteCalculator', function () {
             expect(actual).toBe(605);
         });
     });
+    describe('calculateLongestRoute', function () {
+        test('shortest distance should be 982', function () {
+            var rawDistancesArray = [
+                'London to Dublin = 464',
+                'London to Belfast = 518',
+                'Dublin to Belfast = 141',
+            ];
+            var routeCalculator = new routeCalculator_1.RouteCalculator(rawDistancesArray);
+            var actual = routeCalculator.calculateLongestRoute();
+            expect(actual).toBe(982);
+        });
+    });
 });

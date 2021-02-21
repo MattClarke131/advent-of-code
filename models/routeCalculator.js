@@ -28,6 +28,12 @@ var RouteCalculator = /** @class */ (function () {
         var distances = locationPermutations.map(function (l) { return _this.getDistanceFromLocations(l); });
         return Math.min.apply(Math, distances);
     };
+    RouteCalculator.prototype.calculateLongestRoute = function () {
+        var _this = this;
+        var locationPermutations = this.getPermutations(this.locations);
+        var distances = locationPermutations.map(function (l) { return _this.getDistanceFromLocations(l); });
+        return Math.max.apply(Math, distances);
+    };
     RouteCalculator.prototype.getPermutations = function (inputArray) {
         var permutation = inputArray.map(function (x) { return x; }), length = permutation.length, result = [permutation.slice()], c = new Array(length).fill(0), i = 1, k, p;
         while (i < length) {
