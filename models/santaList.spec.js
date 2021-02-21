@@ -18,4 +18,14 @@ describe('SantaList', function () {
             expect(actual).toBe(expected);
         });
     });
+    describe('getNewDiff', function () {
+        test('should return 12', function () {
+            // given
+            var santaList = new santaList_1.SantaList(testList);
+            //then
+            var actual = santaList.getNewDiff();
+            var expected = 19;
+            expect(actual).toBe(expected);
+        });
+    });
 });

@@ -17,7 +17,7 @@ export class SantaList {
     return this.list.map(s => this.getMemLength(s)).reduce((m,e) => m+e)
   }
 
-  private getMemLength = (s: string) => {
+  private getMemLength(s: string) {
     let i = 0
     let total = 0
 
@@ -39,5 +39,28 @@ export class SantaList {
     }
 
     return s.length - total - 2
+  }
+
+  public getNewDiff() {
+    return this.getNumNewChars() - this.getNumCodeChars()
+  }
+
+  private getNumNewChars() {
+    return this.list.map(s => this.getNewLength(s)).reduce((m,e) => m+e)
+  }
+
+  private getNewLength(s: string) {
+    let specialChars = ['"', '\\']
+
+    const newChars = s.split('')
+      .reduce(
+        (memo, character) => {
+          return memo + (specialChars.includes(character) ? 1 : 0)
+        },
+        0
+      )
+
+    // Add two for starting and ending double quote: "
+    return newChars + s.length + 2
   }
 }

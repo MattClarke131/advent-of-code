@@ -20,4 +20,17 @@ describe('SantaList', () => {
       expect(actual).toBe(expected)
     })
   })
+
+  describe('getNewDiff', () => {
+    test('should return 12', () => {
+      // given
+      const santaList = new SantaList(testList)
+
+      //then
+      const actual = santaList.getNewDiff()
+      const expected = 19
+
+      expect(actual).toBe(expected)
+    })
+  })
 })
