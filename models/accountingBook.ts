@@ -1,10 +1,16 @@
 export class AccountingBook {
-  static getNumberSum(inputString: string) {
+    inputString: string
+
+  constructor(inputString: string) {
+    this.inputString = inputString
+  }
+
+  public getNumberSum() {
     let total = 0
-    for (let i=0; i<inputString.length; i++) {
-      const character = inputString[i]
+    for (let i=0; i<this.inputString.length; i++) {
+      const character = this.inputString[i]
       if (this.charIsNumber(character)) {
-        const currentNumber = this.getNumber(inputString, i)
+        const currentNumber = this.getNumber(this.inputString, i)
         total += currentNumber
         i+= currentNumber.toString().length -1
       }
@@ -13,13 +19,13 @@ export class AccountingBook {
     return total
   }
 
-  private static charIsNumber(character: string) {
+  private charIsNumber(character: string) {
     const charCode = character.charCodeAt(0)
 
     return charCode >= 48 && charCode <= 57
   }
 
-  private static getNumber(inputString: string, index: number) {
+  private getNumber(inputString: string, index: number) {
     const numberIsNegative = inputString[index-1] === '-'
     let newNumber = inputString[index].slice()
 
