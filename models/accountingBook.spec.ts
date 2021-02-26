@@ -109,11 +109,19 @@ describe('AccountingBook', () => {
 
       expect(actual).toBe(expected)
     })
-    test('`more complicated object` should return 7', () => {
+    test('`[1,2,3,{"a":{},"b":{"x":"red"},"c":4}, {"d": -3}]` should return 7', () => {
       const input = '[1,2,3,{"a":{},"b":{"x":"red"},"c":4}, {"d": -3}]'
       const accountingBook = new AccountingBook(input)
       const actual = accountingBook.getNonRedNumberSum()
       const expected = 7
+
+      expect(actual).toBe(expected)
+    })
+    test('`[1,2,3,{"a":"red","b":{"x":"red"},"c":4}, {"d": -3}]` should return 7', () => {
+      const input = '[1,2,3,{"a":"red","b":{"x":"red"},"c":4}, {"d": -3}]'
+      const accountingBook = new AccountingBook(input)
+      const actual = accountingBook.getNonRedNumberSum()
+      const expected = 3
 
       expect(actual).toBe(expected)
     })

@@ -37,7 +37,6 @@ export class AccountingBook {
   }
 
   public getNonRedNumberSum() {
-    debugger
     let redIndex = this.inputString.indexOf('red')
 
     while(redIndex !== -1) {
@@ -60,10 +59,10 @@ export class AccountingBook {
     } else if (parentOpenData.charType === '[') {
       return this.inputString = this.inputString.replace('red', '')
     } else if (parentOpenData.charType === '{') {
-      const beforeString = (this.inputString[parentOpenData.index] === ":") ?
-        this.inputString.slice(0, parentOpenData.index-4)
+      const beforeString = (this.inputString[parentOpenData.index-1] === ":") ?
+        this.inputString.slice(0, Math.max(parentOpenData.index-4,0))
         : this.inputString.slice(0, parentOpenData.index)
-      const afterString = this.inputString.slice(parentCloseData.index)
+      const afterString = this.inputString.slice(parentCloseData.index+2)
       return beforeString.concat(afterString)
     }
   }
@@ -71,7 +70,28 @@ export class AccountingBook {
   private getParentOpenData(redIndex: number) : {charType: string, index: number} | null {
     let bracketCount = 0
     let braceCount = 0
+
     for (let i=redIndex; i>=0; i--) {
+
+      switch(this.inputString[i]) {
+        case '[': {
+          bracketCount++
+          break
+        }
+        case ']': {
+          bracketCount--
+          break
+        }
+        case '{': {
+          braceCount++
+          break
+        }
+        case '}': {
+          braceCount--
+          break
+        }
+      }
+
       if (bracketCount === 1 && braceCount === 0) {
         return {
           charType: '[',
@@ -82,25 +102,6 @@ export class AccountingBook {
           charType: '{',
           index: i,
         }
-      } else {
-        switch(this.inputString[i]) {
-          case '[': {
-            bracketCount++
-            break
-          }
-          case ']': {
-            bracketCount--
-            break
-          }
-          case '{': {
-            braceCount++
-            break
-          }
-          case '}': {
-            braceCount--
-            break
-          }
-        }
       }
     }
 
@@ -110,7 +111,28 @@ export class AccountingBook {
   private getParentCloseData(redIndex: number) : {charType: string, index: number} | null {
     let bracketCount = 0
     let braceCount = 0
+
     for (let i=redIndex; i<this.inputString.length; i++) {
+
+      switch(this.inputString[i]) {
+        case '[': {
+          bracketCount++
+          break
+        }
+        case ']': {
+          bracketCount--
+          break
+        }
+        case '{': {
+          braceCount++
+          break
+        }
+        case '}': {
+          braceCount--
+          break
+        }
+      }
+
       if (bracketCount === -1 && braceCount === 0) {
         return {
           charType: '[',
@@ -120,21 +142,6 @@ export class AccountingBook {
         return {
           charType: '{',
           index: i,
-        }
-      } else {
-        switch(this.inputString[i]) {
-          case '[': {
-            bracketCount++
-          }
-          case ']': {
-            bracketCount--
-          }
-          case '{': {
-            braceCount++
-          }
-          case '}': {
-            braceCount--
-          }
         }
       }
     }

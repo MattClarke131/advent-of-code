@@ -30,7 +30,6 @@ var AccountingBook = /** @class */ (function () {
         return Number(newNumber) * (numberIsNegative ? -1 : 1);
     };
     AccountingBook.prototype.getNonRedNumberSum = function () {
-        debugger;
         var redIndex = this.inputString.indexOf('red');
         while (redIndex !== -1) {
             this.inputString = this.filterRedAndParentIfObject(redIndex);
@@ -48,10 +47,10 @@ var AccountingBook = /** @class */ (function () {
             return this.inputString = this.inputString.replace('red', '');
         }
         else if (parentOpenData.charType === '{') {
-            var beforeString = (this.inputString[parentOpenData.index] === ":") ?
-                this.inputString.slice(0, parentOpenData.index - 4)
+            var beforeString = (this.inputString[parentOpenData.index - 1] === ":") ?
+                this.inputString.slice(0, Math.max(parentOpenData.index - 4, 0))
                 : this.inputString.slice(0, parentOpenData.index);
-            var afterString = this.inputString.slice(parentCloseData.index);
+            var afterString = this.inputString.slice(parentCloseData.index + 2);
             return beforeString.concat(afterString);
         }
     };
@@ -59,6 +58,24 @@ var AccountingBook = /** @class */ (function () {
         var bracketCount = 0;
         var braceCount = 0;
         for (var i = redIndex; i >= 0; i--) {
+            switch (this.inputString[i]) {
+                case '[': {
+                    bracketCount++;
+                    break;
+                }
+                case ']': {
+                    bracketCount--;
+                    break;
+                }
+                case '{': {
+                    braceCount++;
+                    break;
+                }
+                case '}': {
+                    braceCount--;
+                    break;
+                }
+            }
             if (bracketCount === 1 && braceCount === 0) {
                 return {
                     charType: '[',
@@ -71,26 +88,6 @@ var AccountingBook = /** @class */ (function () {
                     index: i
                 };
             }
-            else {
-                switch (this.inputString[i]) {
-                    case '[': {
-                        bracketCount++;
-                        break;
-                    }
-                    case ']': {
-                        bracketCount--;
-                        break;
-                    }
-                    case '{': {
-                        braceCount++;
-                        break;
-                    }
-                    case '}': {
-                        braceCount--;
-                        break;
-                    }
-                }
-            }
         }
         return null;
     };
@@ -98,6 +95,24 @@ var AccountingBook = /** @class */ (function () {
         var bracketCount = 0;
         var braceCount = 0;
         for (var i = redIndex; i < this.inputString.length; i++) {
+            switch (this.inputString[i]) {
+                case '[': {
+                    bracketCount++;
+                    break;
+                }
+                case ']': {
+                    bracketCount--;
+                    break;
+                }
+                case '{': {
+                    braceCount++;
+                    break;
+                }
+                case '}': {
+                    braceCount--;
+                    break;
+                }
+            }
             if (bracketCount === -1 && braceCount === 0) {
                 return {
                     charType: '[',
@@ -109,22 +124,6 @@ var AccountingBook = /** @class */ (function () {
                     charType: '{',
                     index: i
                 };
-            }
-            else {
-                switch (this.inputString[i]) {
-                    case '[': {
-                        bracketCount++;
-                    }
-                    case ']': {
-                        bracketCount--;
-                    }
-                    case '{': {
-                        braceCount++;
-                    }
-                    case '}': {
-                        braceCount--;
-                    }
-                }
             }
         }
         return null;

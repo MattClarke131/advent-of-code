@@ -96,11 +96,18 @@ describe('AccountingBook', function () {
             var expected = 0;
             expect(actual).toBe(expected);
         });
-        test('`more complicated object` should return 7', function () {
+        test('`[1,2,3,{"a":{},"b":{"x":"red"},"c":4}, {"d": -3}]` should return 7', function () {
             var input = '[1,2,3,{"a":{},"b":{"x":"red"},"c":4}, {"d": -3}]';
             var accountingBook = new accountingBook_1.AccountingBook(input);
             var actual = accountingBook.getNonRedNumberSum();
             var expected = 7;
+            expect(actual).toBe(expected);
+        });
+        test('`[1,2,3,{"a":"red","b":{"x":"red"},"c":4}, {"d": -3}]` should return 7', function () {
+            var input = '[1,2,3,{"a":"red","b":{"x":"red"},"c":4}, {"d": -3}]';
+            var accountingBook = new accountingBook_1.AccountingBook(input);
+            var actual = accountingBook.getNonRedNumberSum();
+            var expected = 3;
             expect(actual).toBe(expected);
         });
     });
