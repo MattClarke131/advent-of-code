@@ -67,4 +67,41 @@ describe('AccountingBook', function () {
             expect(actual).toBe(expected);
         });
     });
+    describe('getNonRedNumberSum()', function () {
+        test('`[1,2,3]` should return 6', function () {
+            var input = "[1,2,3]";
+            var accountingBook = new accountingBook_1.AccountingBook(input);
+            var actual = accountingBook.getNonRedNumberSum();
+            var expected = 6;
+            expect(actual).toBe(expected);
+        });
+        test('`[1,{"c":"red","b":2},3]` should return 4', function () {
+            var input = '[1,{"c":"red","b":2},3]';
+            var accountingBook = new accountingBook_1.AccountingBook(input);
+            var actual = accountingBook.getNonRedNumberSum();
+            var expected = 4;
+            expect(actual).toBe(expected);
+        });
+        test('`[1,"red",5]` should return 6', function () {
+            var input = '[1,"red",5]';
+            var accountingBook = new accountingBook_1.AccountingBook(input);
+            var actual = accountingBook.getNonRedNumberSum();
+            var expected = 6;
+            expect(actual).toBe(expected);
+        });
+        test('`{"d":"red","e":[1,2,3,4],"f":5}` should return 0', function () {
+            var input = '{"d":"red","e":[1,2,3,4],"f":5}';
+            var accountingBook = new accountingBook_1.AccountingBook(input);
+            var actual = accountingBook.getNonRedNumberSum();
+            var expected = 0;
+            expect(actual).toBe(expected);
+        });
+        test('`more complicated object` should return 7', function () {
+            var input = '[1,2,3,{"a":{},"b":{"x":"red"},"c":4}, {"d": -3}]';
+            var accountingBook = new accountingBook_1.AccountingBook(input);
+            var actual = accountingBook.getNonRedNumberSum();
+            var expected = 7;
+            expect(actual).toBe(expected);
+        });
+    });
 });

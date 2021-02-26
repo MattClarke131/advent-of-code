@@ -35,4 +35,110 @@ export class AccountingBook {
 
     return Number(newNumber) * (numberIsNegative ? -1 : 1)
   }
+
+  public getNonRedNumberSum() {
+    debugger
+    let redIndex = this.inputString.indexOf('red')
+
+    while(redIndex !== -1) {
+      this.inputString = this.filterRedAndParentIfObject(redIndex)
+      redIndex = this.inputString.indexOf('red')
+    }
+
+
+    return this.getNumberSum()
+  }
+
+  private filterRedAndParentIfObject(redIndex: number) {
+    const parentOpenData : {charType: string, index: number} =
+      this.getParentOpenData(redIndex)
+    const parentCloseData : {charType: string, index: number} =
+      this.getParentCloseData(redIndex)
+
+    if (parentOpenData === null || parentCloseData === null ) {
+      return this.inputString.replace('red', '')
+    } else if (parentOpenData.charType === '[') {
+      return this.inputString = this.inputString.replace('red', '')
+    } else if (parentOpenData.charType === '{') {
+      const beforeString = (this.inputString[parentOpenData.index] === ":") ?
+        this.inputString.slice(0, parentOpenData.index-4)
+        : this.inputString.slice(0, parentOpenData.index)
+      const afterString = this.inputString.slice(parentCloseData.index)
+      return beforeString.concat(afterString)
+    }
+  }
+
+  private getParentOpenData(redIndex: number) : {charType: string, index: number} | null {
+    let bracketCount = 0
+    let braceCount = 0
+    for (let i=redIndex; i>=0; i--) {
+      if (bracketCount === 1 && braceCount === 0) {
+        return {
+          charType: '[',
+          index: i,
+        }
+      } else if (braceCount === 1 && bracketCount === 0) {
+        return {
+          charType: '{',
+          index: i,
+        }
+      } else {
+        switch(this.inputString[i]) {
+          case '[': {
+            bracketCount++
+            break
+          }
+          case ']': {
+            bracketCount--
+            break
+          }
+          case '{': {
+            braceCount++
+            break
+          }
+          case '}': {
+            braceCount--
+            break
+          }
+        }
+      }
+    }
+
+    return null
+  }
+
+  private getParentCloseData(redIndex: number) : {charType: string, index: number} | null {
+    let bracketCount = 0
+    let braceCount = 0
+    for (let i=redIndex; i<this.inputString.length; i++) {
+      if (bracketCount === -1 && braceCount === 0) {
+        return {
+          charType: '[',
+          index: i,
+        }
+      } else if (braceCount === -1 && bracketCount === 0) {
+        return {
+          charType: '{',
+          index: i,
+        }
+      } else {
+        switch(this.inputString[i]) {
+          case '[': {
+            bracketCount++
+          }
+          case ']': {
+            bracketCount--
+          }
+          case '{': {
+            braceCount++
+          }
+          case '}': {
+            braceCount--
+          }
+        }
+      }
+    }
+
+    return null
+  }
 }
