@@ -1,0 +1,11 @@
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var seatingArrangement_1 = require("../models/seatingArrangement");
+var pathName = path.join(__dirname, './input.txt');
+var inputString = fs.readFileSync(pathName, 'utf-8').split('\n');
+inputString.pop();
+console.log(inputString);
+var seatingArrangement = new seatingArrangement_1.SeatingArrangement(inputString);
+console.log(seatingArrangement.getOptimalArrangementValue());
