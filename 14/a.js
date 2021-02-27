@@ -1,0 +1,11 @@
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var reindeer_1 = require("../models/reindeer");
+var pathName = path.join(__dirname, './input.txt');
+var inputString = fs.readFileSync(pathName, 'utf-8').split('\n');
+inputString.pop();
+var reindeers = inputString.map(function (str) { return reindeer_1.Reindeer.fromString(str); });
+var race = reindeers.map(function (reindeer) { return reindeer.getDistanceTravelled(2503); });
+console.log(Math.max.apply(Math, race));
