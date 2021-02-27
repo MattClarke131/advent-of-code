@@ -1,8 +1,10 @@
 export class AccountingBook {
-    inputString: string
+  inputString: string
+  json: object | []
 
   constructor(inputString: string) {
     this.inputString = inputString
+    this.json = JSON.parse(inputString)
   }
 
   public getNumberSum() {
@@ -37,115 +39,28 @@ export class AccountingBook {
   }
 
   public getNonRedNumberSum() {
-    let redIndex = this.inputString.indexOf('red')
-
-    while(redIndex !== -1) {
-      this.inputString = this.filterRedAndParentIfObject(redIndex)
-      redIndex = this.inputString.indexOf('red')
-    }
-
-
+    const nonRedJSON = this.getNonRedJSON(this.json)
+    this.inputString = JSON.stringify(nonRedJSON)
     return this.getNumberSum()
   }
 
-  private filterRedAndParentIfObject(redIndex: number) {
-    const parentOpenData : {charType: string, index: number} =
-      this.getParentOpenData(redIndex)
-    const parentCloseData : {charType: string, index: number} =
-      this.getParentCloseData(redIndex)
+  public getNonRedJSON( json ) {
+    if (Array.isArray(json)) {
+      return json.map( el => this.getNonRedJSON(el) )
+    } else if (typeof json === 'object') {
+      if (Object.values(json).includes("red")) {
+        return {}
+      } else {
+        let result = {}
 
-    if (parentOpenData === null || parentCloseData === null ) {
-      return this.inputString.replace('red', '')
-    } else if (parentOpenData.charType === '[') {
-      return this.inputString = this.inputString.replace('red', '')
-    } else if (parentOpenData.charType === '{') {
-      const beforeString = (this.inputString[parentOpenData.index-1] === ":") ?
-        this.inputString.slice(0, Math.max(parentOpenData.index-4,0))
-        : this.inputString.slice(0, parentOpenData.index)
-      const afterString = this.inputString.slice(parentCloseData.index+2)
-      return beforeString.concat(afterString)
+        for (const key in json) {
+          result[key] = this.getNonRedJSON(json[key])
+        }
+
+        return result
+      }
+    } else {
+      return json
     }
-  }
-
-  private getParentOpenData(redIndex: number) : {charType: string, index: number} | null {
-    let bracketCount = 0
-    let braceCount = 0
-
-    for (let i=redIndex; i>=0; i--) {
-
-      switch(this.inputString[i]) {
-        case '[': {
-          bracketCount++
-          break
-        }
-        case ']': {
-          bracketCount--
-          break
-        }
-        case '{': {
-          braceCount++
-          break
-        }
-        case '}': {
-          braceCount--
-          break
-        }
-      }
-
-      if (bracketCount === 1 && braceCount === 0) {
-        return {
-          charType: '[',
-          index: i,
-        }
-      } else if (braceCount === 1 && bracketCount === 0) {
-        return {
-          charType: '{',
-          index: i,
-        }
-      }
-    }
-
-    return null
-  }
-
-  private getParentCloseData(redIndex: number) : {charType: string, index: number} | null {
-    let bracketCount = 0
-    let braceCount = 0
-
-    for (let i=redIndex; i<this.inputString.length; i++) {
-
-      switch(this.inputString[i]) {
-        case '[': {
-          bracketCount++
-          break
-        }
-        case ']': {
-          bracketCount--
-          break
-        }
-        case '{': {
-          braceCount++
-          break
-        }
-        case '}': {
-          braceCount--
-          break
-        }
-      }
-
-      if (bracketCount === -1 && braceCount === 0) {
-        return {
-          charType: '[',
-          index: i,
-        }
-      } else if (braceCount === -1 && bracketCount === 0) {
-        return {
-          charType: '{',
-          index: i,
-        }
-      }
-    }
-
-    return null
   }
 }

@@ -11,7 +11,7 @@ describe('AccountingBook', function () {
             expect(actual).toBe(expected);
         });
         test('`{"a":2, "b":4}` should return 6', function () {
-            var input = "\"{\"a\":2, \"b\":4}\"";
+            var input = "{\"a\":2, \"b\":4}";
             var accountingBook = new accountingBook_1.AccountingBook(input);
             var actual = accountingBook.getNumberSum();
             var expected = 6;
@@ -24,8 +24,8 @@ describe('AccountingBook', function () {
             var expected = 3;
             expect(actual).toBe(expected);
         });
-        test('`{"a}:{"b":4},"c":-1` should return 3', function () {
-            var input = "{\"a}:{\"b\":4},\"c\":-1";
+        test('`{"a":{"b":4},"c":-1` should return 3', function () {
+            var input = "{\"a\":{\"b\":4},\"c\":-1";
             var accountingBook = new accountingBook_1.AccountingBook(input);
             var actual = accountingBook.getNumberSum();
             var expected = 3;

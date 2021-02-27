@@ -11,7 +11,7 @@ describe('AccountingBook', () => {
       expect(actual).toBe(expected)
     })
     test('`{"a":2, "b":4}` should return 6', () => {
-      const input = `"{"a":2, "b":4}"`
+      const input = `{"a":2, "b":4}`
       const accountingBook = new AccountingBook(input)
       const actual = accountingBook.getNumberSum()
       const expected = 6
@@ -26,8 +26,8 @@ describe('AccountingBook', () => {
 
       expect(actual).toBe(expected)
     })
-    test('`{"a}:{"b":4},"c":-1` should return 3', () => {
-      const input = `{"a}:{"b":4},"c":-1`
+    test('`{"a":{"b":4},"c":-1` should return 3', () => {
+      const input = `{"a":{"b":4},"c":-1`
       const accountingBook = new AccountingBook(input)
       const actual = accountingBook.getNumberSum()
       const expected = 3
