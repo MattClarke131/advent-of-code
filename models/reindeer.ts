@@ -46,3 +46,28 @@ export class Reindeer {
     return distance
   }
 }
+
+export class ReindeerInRace extends Reindeer {
+  public points: number
+
+  constructor(
+    name: string,
+    speed: number,
+    endurance: number,
+    rest: number,
+  ) {
+    super(name, speed, endurance, rest)
+
+    this.points = 0
+  }
+
+  static fromString(inputString) {
+    const words = inputString.split(' ')
+    return new ReindeerInRace(
+      words[0], // name
+      parseInt(words[3]), // speed
+      parseInt(words[6]), // endurance
+      parseInt(words[13]) // rest
+    )
+  }
+}
