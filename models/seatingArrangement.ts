@@ -34,6 +34,34 @@ export class SeatingArrangement {
     )
   }
 
+  public getOptimalArrangementValueWithSanta() : number {
+    const attendeesArray = Object.keys(this.attendees).map(key => this.attendees[key])
+    const sortedAttendeesArray = attendeesArray.sort((a,b) => a.id - b.id)
+
+    // initial state
+    let attendeesPermutation: any[] = 
+      sortedAttendeesArray.map(
+        attendee => { return {attendee, value: attendee.id, direction: -1} }
+      )
+    let currentMax = 0
+
+    while (attendeesPermutation !== null) {
+      currentMax = Math.max(currentMax, this.calcSantaArrangementValue(attendeesPermutation))
+      attendeesPermutation = this.getNextAttendeesPermutation(attendeesPermutation)
+    }
+
+    return currentMax
+  }
+
+  private calcSantaArrangementValue(permutation: object[]) {
+    let total = 0
+    for (let i=1; i<permutation.length; i++) {
+      total += this.getHappiness(permutation[i-1], permutation[i])
+    }
+
+    return total
+  }
+
   public getOptimalArrangementValue() : number {
     const attendeesArray = Object.keys(this.attendees).map(key => this.attendees[key])
     const sortedAttendeesArray = attendeesArray.sort((a,b) => a.id - b.id)
@@ -54,7 +82,7 @@ export class SeatingArrangement {
 
   private calcArrangementValue(
     headOfTable: Attendee,
-    permutation: object[]
+    permutation: object[],
   ) {
     const completeTable = permutation.concat({attendee: headOfTable})
 

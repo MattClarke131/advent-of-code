@@ -29,6 +29,26 @@ var SeatingArrangement = /** @class */ (function () {
             _this.attendees[subjectName].addHappinessRule(targetName, polarity * magnitude);
         });
     };
+    SeatingArrangement.prototype.getOptimalArrangementValueWithSanta = function () {
+        var _this = this;
+        var attendeesArray = Object.keys(this.attendees).map(function (key) { return _this.attendees[key]; });
+        var sortedAttendeesArray = attendeesArray.sort(function (a, b) { return a.id - b.id; });
+        // initial state
+        var attendeesPermutation = sortedAttendeesArray.map(function (attendee) { return { attendee: attendee, value: attendee.id, direction: -1 }; });
+        var currentMax = 0;
+        while (attendeesPermutation !== null) {
+            currentMax = Math.max(currentMax, this.calcSantaArrangementValue(attendeesPermutation));
+            attendeesPermutation = this.getNextAttendeesPermutation(attendeesPermutation);
+        }
+        return currentMax;
+    };
+    SeatingArrangement.prototype.calcSantaArrangementValue = function (permutation) {
+        var total = 0;
+        for (var i = 1; i < permutation.length; i++) {
+            total += this.getHappiness(permutation[i - 1], permutation[i]);
+        }
+        return total;
+    };
     SeatingArrangement.prototype.getOptimalArrangementValue = function () {
         var _this = this;
         var attendeesArray = Object.keys(this.attendees).map(function (key) { return _this.attendees[key]; });
