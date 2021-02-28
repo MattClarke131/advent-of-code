@@ -44,4 +44,45 @@ export class AuntSue {
 
     return true
   }
+
+  public matchesAnalysis2(ticker: object) {
+    const thingKeys = Object.keys(this.rememberedThings)
+
+    for (let i=0; i<thingKeys.length; i++) {
+      const rememberedThing = thingKeys[i]
+      switch (rememberedThing) {
+        case 'cats': {
+          if (ticker[rememberedThing] >= this.rememberedThings[rememberedThing]) {
+            return false
+          }
+          break;
+        }
+        case 'trees': {
+          if (ticker[rememberedThing] >= this.rememberedThings[rememberedThing]) {
+            return false
+          }
+          break;
+        }
+        case 'pomeranians': {
+          if (ticker[rememberedThing] <= this.rememberedThings[rememberedThing]) {
+            return false
+          }
+          break;
+        }
+        case 'goldfish': {
+          if (ticker[rememberedThing] <= this.rememberedThings[rememberedThing]) {
+            return false
+          }
+          break;
+        }
+        default: {
+          if (ticker[rememberedThing] !== this.rememberedThings[rememberedThing]) {
+            return false
+          }
+        }
+      }
+    }
+
+    return true
+  }
 }

@@ -33,6 +33,44 @@ var AuntSue = /** @class */ (function () {
         }
         return true;
     };
+    AuntSue.prototype.matchesAnalysis2 = function (ticker) {
+        var thingKeys = Object.keys(this.rememberedThings);
+        for (var i = 0; i < thingKeys.length; i++) {
+            var rememberedThing = thingKeys[i];
+            switch (rememberedThing) {
+                case 'cats': {
+                    if (ticker[rememberedThing] >= this.rememberedThings[rememberedThing]) {
+                        return false;
+                    }
+                    break;
+                }
+                case 'trees': {
+                    if (ticker[rememberedThing] >= this.rememberedThings[rememberedThing]) {
+                        return false;
+                    }
+                    break;
+                }
+                case 'pomeranians': {
+                    if (ticker[rememberedThing] <= this.rememberedThings[rememberedThing]) {
+                        return false;
+                    }
+                    break;
+                }
+                case 'goldfish': {
+                    if (ticker[rememberedThing] <= this.rememberedThings[rememberedThing]) {
+                        return false;
+                    }
+                    break;
+                }
+                default: {
+                    if (ticker[rememberedThing] !== this.rememberedThings[rememberedThing]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    };
     return AuntSue;
 }());
 exports.AuntSue = AuntSue;
