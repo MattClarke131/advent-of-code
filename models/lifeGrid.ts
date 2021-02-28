@@ -2,10 +2,12 @@ export class LifeGrid {
   lifeGrid: object
   tempGrid: object
   size: number
+  lockedCorners: boolean
 
   constructor(textConfiguration: string[]) {
     // assuming grid is a square
     this.size = textConfiguration.length
+    this.lockedCorners = false
 
     this.populateGrids()
     this.applyConfigurationToLifeGrid(textConfiguration)
@@ -14,6 +16,11 @@ export class LifeGrid {
   public getLightsOnAfterSteps(n: number) {
     this.iterate(n)
     return this.countOnLights()
+  }
+
+  public lockCorners() {
+    this.lockedCorners = true
+    this.applyLockedCorners()
   }
 
   private iterate(n: number) : void {
@@ -30,6 +37,16 @@ export class LifeGrid {
     }
 
     this.applyTempGridToLifeGrid()
+    if (this.lockedCorners) {
+      this.applyLockedCorners()
+    }
+  }
+
+  private applyLockedCorners() : void {
+    this.lifeGrid[0][0] = true
+    this.lifeGrid[0][this.size-1] = true
+    this.lifeGrid[this.size-1][0] = true
+    this.lifeGrid[this.size-1][this.size-1] = true
   }
 
   private applyRulesToLight(x: number, y: number) {
@@ -41,7 +58,7 @@ export class LifeGrid {
     }
   }
 
-  private getNumberOfOnNeighbors(x,y) {
+  private getNumberOfOnNeighbors(x,y) : number {
     let total = 0
     total += !!this.lifeGrid[x-1]?.[y-1] ? 1 : 0
     total += !!this.lifeGrid[x-1]?.[y] ? 1 : 0

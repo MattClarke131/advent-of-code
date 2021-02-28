@@ -5,12 +5,17 @@ var LifeGrid = /** @class */ (function () {
     function LifeGrid(textConfiguration) {
         // assuming grid is a square
         this.size = textConfiguration.length;
+        this.lockedCorners = false;
         this.populateGrids();
         this.applyConfigurationToLifeGrid(textConfiguration);
     }
     LifeGrid.prototype.getLightsOnAfterSteps = function (n) {
         this.iterate(n);
         return this.countOnLights();
+    };
+    LifeGrid.prototype.lockCorners = function () {
+        this.lockedCorners = true;
+        this.applyLockedCorners();
     };
     LifeGrid.prototype.iterate = function (n) {
         for (var i = 0; i < n; i++) {
@@ -24,6 +29,15 @@ var LifeGrid = /** @class */ (function () {
             }
         }
         this.applyTempGridToLifeGrid();
+        if (this.lockedCorners) {
+            this.applyLockedCorners();
+        }
+    };
+    LifeGrid.prototype.applyLockedCorners = function () {
+        this.lifeGrid[0][0] = true;
+        this.lifeGrid[0][this.size - 1] = true;
+        this.lifeGrid[this.size - 1][0] = true;
+        this.lifeGrid[this.size - 1][this.size - 1] = true;
     };
     LifeGrid.prototype.applyRulesToLight = function (x, y) {
         if (this.lifeGrid[x][y]) {
