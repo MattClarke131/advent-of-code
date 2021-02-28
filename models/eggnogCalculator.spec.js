@@ -12,4 +12,14 @@ describe('EggnogCalculator', function () {
             expect(actual).toBe(expected);
         });
     });
+    describe('getNumberOfMinimalPermutationsForAmount(liters)', function () {
+        test('20,15,10,5,5 and 25 should return 3', function () {
+            var containers = [20, 15, 10, 5, 5];
+            var eggnogCalculator = new eggnogCalculator_1.EggnogCalculator(containers);
+            var liters = 25;
+            var actual = eggnogCalculator.getNumberOfMinimalPermutationsForAmount(liters);
+            var expected = 3;
+            expect(actual).toBe(expected);
+        });
+    });
 });

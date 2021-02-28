@@ -18,6 +18,27 @@ var EggnogCalculator = /** @class */ (function () {
         }
         return count;
     };
+    EggnogCalculator.prototype.getNumberOfMinimalPermutationsForAmount = function (liters) {
+        var count = 0;
+        var minimum = this.containers.length;
+        for (var i = 0; i < Math.pow(2, this.containers.length); i++) {
+            var currentPermutation = i.toString(2)
+                .padStart(this.containers.length, '0')
+                .split('')
+                .map(function (s) { return parseInt(s); });
+            if (this.dotProduct(this.containers, currentPermutation) === liters) {
+                var numberOfContainersUsed = currentPermutation.reduce(function (m, c) { return m + c; });
+                if (numberOfContainersUsed < minimum) {
+                    minimum = numberOfContainersUsed;
+                    count = 1;
+                }
+                else if (numberOfContainersUsed === minimum) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    };
     EggnogCalculator.prototype.dotProduct = function (a, b) {
         var product = a.reduce(function (memo, number, index) {
             return memo + number * b[index];
