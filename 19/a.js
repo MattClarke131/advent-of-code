@@ -1,0 +1,13 @@
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var moleculeMachine_1 = require("../models/moleculeMachine");
+var pathName = path.join(__dirname, './input.txt');
+var inputStrings = fs.readFileSync(pathName, 'utf-8').split('\n');
+inputStrings.pop();
+var replacements = inputStrings.slice(0, 43);
+var medicineMolecule = inputStrings[inputStrings.length - 1];
+var moleculeMachine = new moleculeMachine_1.MoleculeMachine(replacements);
+var result = moleculeMachine.getNumberOfDistinctMolecules(medicineMolecule);
+console.log(result);
