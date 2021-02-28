@@ -46,4 +46,12 @@ describe('OptimalCookieGenerator', function () {
             expect(highScore).toBe(expected);
         });
     });
+    describe('getOptimalCookieScoreWithNCalories()', function () {
+        test('two ingredients should return 57600000', function () {
+            var optimalCookieGenerator = new cookie_1.OptimalCookieGenerator([butterscotch, cinnamon]);
+            var highScore = optimalCookieGenerator.getOptimalCookieScoreWithNCalories(500);
+            var expected = 57600000;
+            expect(highScore).toBe(expected);
+        });
+    });
 });

@@ -54,4 +54,13 @@ describe('OptimalCookieGenerator', () => {
       expect(highScore).toBe(expected)
     })
   })
+  describe('getOptimalCookieScoreWithNCalories()', () => {
+    test('two ingredients should return 57600000', () => {
+      const optimalCookieGenerator = new OptimalCookieGenerator([butterscotch, cinnamon])
+      const highScore = optimalCookieGenerator.getOptimalCookieScoreWithNCalories(500)
+      const expected = 57600000
+
+      expect(highScore).toBe(expected)
+    })
+  })
 })

@@ -15,6 +15,9 @@ var Cookie = /** @class */ (function () {
         scores = scores.map(function (score) { return Math.max(0, score); });
         return scores.reduce(function (total, score) { return total * score; });
     };
+    Cookie.prototype.calculateCalories = function () {
+        return this.getPropertyScore('calories');
+    };
     Cookie.prototype.getPropertyScore = function (property) {
         return this.ingredients.reduce(function (total, ingredient) {
             return total + ingredient.amount * ingredient.ingredient[property];
@@ -62,6 +65,33 @@ var OptimalCookieGenerator = /** @class */ (function () {
             checked++;
         }
         return this.highScore;
+    };
+    OptimalCookieGenerator.prototype.getOptimalCookieScoreWithNCalories = function (calories) {
+        var amountsPermutation = this.ingredients.map(function (i) { return 0; });
+        amountsPermutation[0] = 100;
+        if (this.cookieHasNCalories(amountsPermutation, calories)) {
+            this.highScore = this.getCookieScoreFromAmountsPermutation(amountsPermutation);
+        }
+        var nextPermutation = this.getNextPermutation(amountsPermutation);
+        var checked = 1;
+        while (!this.arraysEqual(amountsPermutation, nextPermutation)) {
+            if (this.cookieHasNCalories(nextPermutation, calories)) {
+                this.highScore =
+                    Math.max(this.highScore, this.getCookieScoreFromAmountsPermutation(nextPermutation));
+            }
+            amountsPermutation = nextPermutation;
+            nextPermutation = this.getNextPermutation(amountsPermutation);
+            checked++;
+        }
+        return this.highScore;
+    };
+    OptimalCookieGenerator.prototype.cookieHasNCalories = function (amountsPermutation, n) {
+        var _this = this;
+        var ingredients = amountsPermutation.map(function (amount, i) {
+            return { ingredient: _this.ingredients[i], amount: amount };
+        });
+        var cookie = new Cookie(ingredients);
+        return cookie.calculateCalories() === n;
     };
     OptimalCookieGenerator.prototype.getCookieScoreFromAmountsPermutation = function (amountsPermutation) {
         var _this = this;

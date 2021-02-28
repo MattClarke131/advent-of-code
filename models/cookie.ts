@@ -17,6 +17,10 @@ export class Cookie {
     return scores.reduce((total, score) => total * score)
   }
 
+  public calculateCalories() {
+    return this.getPropertyScore('calories')
+  }
+
   private getPropertyScore(property: string) {
     return this.ingredients.reduce(
       (total, ingredient) => {
@@ -90,7 +94,7 @@ export class OptimalCookieGenerator {
     let checked = 1
 
     while (!this.arraysEqual(amountsPermutation, nextPermutation)) {
-      this.highScore = 
+      this.highScore =
         Math.max(this.highScore, this.getCookieScoreFromAmountsPermutation(nextPermutation))
       amountsPermutation = nextPermutation
       nextPermutation = this.getNextPermutation(amountsPermutation)
@@ -98,6 +102,39 @@ export class OptimalCookieGenerator {
     }
 
     return this.highScore
+  }
+
+  public getOptimalCookieScoreWithNCalories(calories: number) : number {
+    let amountsPermutation = this.ingredients.map(i => 0)
+    amountsPermutation[0] = 100
+    if (this.cookieHasNCalories(amountsPermutation, calories)) {
+      this.highScore = this.getCookieScoreFromAmountsPermutation(amountsPermutation)
+    }
+    let nextPermutation = this.getNextPermutation(amountsPermutation)
+    let checked = 1
+
+    while (!this.arraysEqual(amountsPermutation, nextPermutation)) {
+      if (this.cookieHasNCalories(nextPermutation, calories)) {
+        this.highScore =
+          Math.max(this.highScore, this.getCookieScoreFromAmountsPermutation(nextPermutation))
+      }
+      amountsPermutation = nextPermutation
+      nextPermutation = this.getNextPermutation(amountsPermutation)
+      checked++
+    }
+
+    return this.highScore
+  }
+
+  private cookieHasNCalories(amountsPermutation: number[], n: number) : boolean {
+    const ingredients = amountsPermutation.map(
+      (amount,i) => {
+        return { ingredient: this.ingredients[i], amount }
+      })
+
+    const cookie = new Cookie(ingredients)
+
+    return cookie.calculateCalories() === n
   }
 
   private getCookieScoreFromAmountsPermutation(amountsPermutation: number[]) : number {
