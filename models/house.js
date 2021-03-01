@@ -29,6 +29,26 @@ var House = /** @class */ (function () {
         }
         return factors;
     };
+    House.prototype.firstHouseToReachWithReasonableElves = function (input) {
+        var houseNumber = 1;
+        while (true) {
+            var factors = this.getReasonableFactors(houseNumber);
+            var numberOfPresents = 11 * factors.reduce(function (memo, presents) { return memo + presents; });
+            if (numberOfPresents >= input) {
+                return houseNumber;
+            }
+            houseNumber++;
+        }
+    };
+    House.prototype.getReasonableFactors = function (houseNumber) {
+        var factors = [];
+        for (var i = 1; i <= 50; i++) {
+            if (houseNumber % i === 0) {
+                factors.push(houseNumber / i);
+            }
+        }
+        return factors;
+    };
     return House;
 }());
 exports.House = House;

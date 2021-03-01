@@ -30,4 +30,29 @@ export class House {
 
     return factors
   }
+
+  public firstHouseToReachWithReasonableElves(input: number) {
+    let houseNumber = 1
+
+    while (true) {
+      const factors = this.getReasonableFactors(houseNumber)
+      const numberOfPresents = 11 * factors.reduce((memo, presents) => memo + presents)
+      if (numberOfPresents >= input) {
+        return houseNumber
+      }
+
+      houseNumber++
+    }
+  }
+
+  private getReasonableFactors(houseNumber: number) {
+    const factors = []
+    for (let i = 1; i<=50; i++) {
+      if (houseNumber % i === 0) {
+        factors.push(houseNumber/i)
+      }
+    }
+
+    return factors
+  }
 }
