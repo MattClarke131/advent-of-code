@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.MoleculeMachine = void 0;
+exports.Molecule = exports.MoleculeMachine = void 0;
 var MoleculeMachine = /** @class */ (function () {
     function MoleculeMachine(replacements) {
         this.replacements = replacements.map(function (r) { return new Replacement(r); });
@@ -58,3 +58,39 @@ var Replacement = /** @class */ (function () {
     }
     return Replacement;
 }());
+var Element = /** @class */ (function () {
+    function Element(name) {
+        this.name = name;
+    }
+    return Element;
+}());
+var Molecule = /** @class */ (function () {
+    function Molecule(elements) {
+        this.elements = elements;
+    }
+    Molecule.fromString = function (moleculeString) {
+        var elements = this.getMoleculeArray(moleculeString);
+        return new Molecule(elements);
+    };
+    Molecule.getMoleculeArray = function (moleculeString) {
+        var str = moleculeString.slice();
+        var elements = [];
+        while (str.length > 0) {
+            if (str.length === 1) {
+                elements.push(new Element(str));
+                str = '';
+            }
+            else if (str[1] === str[1].toLowerCase()) {
+                elements.push(new Element(str.substring(0, 2)));
+                str = str.substring(2);
+            }
+            else {
+                elements.push(new Element(str[0]));
+                str = str.substring(1);
+            }
+        }
+        return elements;
+    };
+    return Molecule;
+}());
+exports.Molecule = Molecule;

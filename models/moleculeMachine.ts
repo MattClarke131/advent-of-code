@@ -66,3 +66,43 @@ class Replacement {
     this.output = words[2]
   }
 }
+
+class Element {
+  public name: string
+
+  constructor(name: string) {
+    this.name = name
+  }
+}
+
+export class Molecule {
+  public elements: Element[]
+
+  constructor(elements: Element[]) {
+    this.elements = elements
+  }
+
+  public static fromString(moleculeString: string) {
+    const elements = this.getMoleculeArray(moleculeString)
+    return new Molecule(elements)
+  }
+
+  private static getMoleculeArray(moleculeString: string) : Element[] {
+    let str: string = moleculeString.slice()
+    let elements: Element[] = []
+    while (str.length > 0) {
+      if (str.length === 1) {
+        elements.push(new Element(str))
+        str = ''
+      } else if (str[1] === str[1].toLowerCase()) {
+        elements.push(new Element(str.substring(0,2)))
+        str = str.substring(2)
+      } else {
+        elements.push(new Element(str[0]))
+        str = str.substring(1)
+      }
+    }
+
+    return elements
+  }
+}
