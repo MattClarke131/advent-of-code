@@ -1,6 +1,13 @@
 "use strict";
 exports.__esModule = true;
 exports.LifeGrid = void 0;
+var wait = function (milliseconds) {
+    var start = Date.now();
+    var currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - start < milliseconds);
+};
 var LifeGrid = /** @class */ (function () {
     function LifeGrid(textConfiguration) {
         // assuming grid is a square
@@ -16,6 +23,12 @@ var LifeGrid = /** @class */ (function () {
     LifeGrid.prototype.lockCorners = function () {
         this.lockedCorners = true;
         this.applyLockedCorners();
+    };
+    LifeGrid.prototype.runForFun = function (steps) {
+        for (var i = 0; i < steps; i++) {
+            this.printGrid(this.lifeGrid);
+            this.iterateOnce();
+        }
     };
     LifeGrid.prototype.iterate = function (n) {
         for (var i = 0; i < n; i++) {
@@ -101,10 +114,12 @@ var LifeGrid = /** @class */ (function () {
         for (var i = 0; i < this.size; i++) {
             var outputRow = '';
             for (var j = 0; j < this.size; j++) {
-                outputRow += grid[i][j] ? '#' : '.';
+                outputRow += grid[i][j] ? '#' : ' ';
             }
             output += outputRow + '\n';
         }
+        wait(300);
+        console.clear();
         console.log(output);
     };
     return LifeGrid;

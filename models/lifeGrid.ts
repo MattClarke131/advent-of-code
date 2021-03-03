@@ -1,3 +1,11 @@
+const wait = (milliseconds) => {
+  const start = Date.now()
+  let currentDate = null
+  do {
+    currentDate = Date.now()
+  } while (currentDate - start < milliseconds)
+}
+
 export class LifeGrid {
   lifeGrid: object
   tempGrid: object
@@ -21,6 +29,13 @@ export class LifeGrid {
   public lockCorners() {
     this.lockedCorners = true
     this.applyLockedCorners()
+  }
+
+  public runForFun(steps) {
+    for (let i=0; i<steps; i++) {
+      this.printGrid(this.lifeGrid)
+      this.iterateOnce()
+    }
   }
 
   private iterate(n: number) : void {
@@ -118,11 +133,13 @@ export class LifeGrid {
     for (let i=0; i<this.size; i++) {
       let outputRow = ''
       for (let j=0; j<this.size; j++) {
-        outputRow += grid[i][j] ? '#' : '.'
+        outputRow += grid[i][j] ? '#' : ' '
       }
       output += outputRow + '\n'
     }
 
+    wait(300)
+    console.clear()
     console.log(output)
   }
 }
