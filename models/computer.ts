@@ -3,8 +3,8 @@ export class Computer {
   b: number
   offset: number
 
-  constructor() {
-    this.a = 0
+  constructor(a: number = 0) {
+    this.a = a
     this.b = 0
     this.offset = 0
   }

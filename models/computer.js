@@ -2,8 +2,9 @@
 exports.__esModule = true;
 exports.Program = exports.Computer = void 0;
 var Computer = /** @class */ (function () {
-    function Computer() {
-        this.a = 0;
+    function Computer(a) {
+        if (a === void 0) { a = 0; }
+        this.a = a;
         this.b = 0;
         this.offset = 0;
     }
