@@ -3,10 +3,10 @@ exports.__esModule = true;
 exports.Sleigh = void 0;
 var combinatorics_1 = require("./combinatorics");
 var Sleigh = /** @class */ (function () {
-    function Sleigh(presents) {
+    function Sleigh(presents, numGroups) {
         var reverseSortedPresents = presents.sort(function (a, b) { return b - a; });
         this.presents = reverseSortedPresents;
-        this.targetSum = this.presents.reduce(function (memo, present) { return memo + present; }) / 3;
+        this.targetSum = this.presents.reduce(function (memo, present) { return memo + present; }) / numGroups;
         this.bestEntanglement = 0;
         this.minSize = this.calcMinSize(presents);
         this.maxSize = this.calcMaxSize(presents);
@@ -77,9 +77,11 @@ var Sleigh = /** @class */ (function () {
         var _loop_1 = function () {
             var targetSum = this_1.targetSum;
             var comboIsValidAmount = this_1.comboIsValidAmount.bind(this_1);
-            var callback = function (combo) { if (comboIsValidAmount(combo)) {
-                result = true;
-            } };
+            var callback = function (combo) {
+                if (comboIsValidAmount(combo)) {
+                    result = true;
+                }
+            };
             combinatorics_1.Combinatorics.iterateComboWithCallback(remainingPackages, currentSize, callback);
             currentSize++;
         };

@@ -7,6 +7,6 @@ var pathName = path.join(__dirname, './input.txt');
 var inputStrings = fs.readFileSync(pathName, 'utf-8').split('\n');
 inputStrings.pop();
 var inputNumbers = inputStrings.map(function (s) { return parseInt(s); });
-var sleigh = new sleigh_1.Sleigh(inputNumbers, 3);
+var sleigh = new sleigh_1.Sleigh(inputNumbers, 4);
 var result = sleigh.getSmallestGroup();
 console.log(result);

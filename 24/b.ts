@@ -7,7 +7,7 @@ const inputStrings: string[] = fs.readFileSync(pathName, 'utf-8').split('\n');
 inputStrings.pop()
 const inputNumbers = inputStrings.map(s => parseInt(s))
 
-const sleigh = new Sleigh(inputNumbers, 3)
+const sleigh = new Sleigh(inputNumbers, 4)
 const result = sleigh.getSmallestGroup()
 
 console.log(result)

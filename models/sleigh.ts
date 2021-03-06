@@ -6,10 +6,10 @@ export class Sleigh {
   private readonly minSize: number
   private readonly maxSize: number
 
-  constructor(presents: number[]) {
+  constructor(presents: number[], numGroups: number) {
     const reverseSortedPresents = presents.sort((a,b) => b-a)
     this.presents = reverseSortedPresents
-    this.targetSum = this.presents.reduce((memo, present) => memo + present) / 3
+    this.targetSum = this.presents.reduce((memo, present) => memo + present) / numGroups
     this.bestEntanglement = 0
     this.minSize = this.calcMinSize(presents)
     this.maxSize = this.calcMaxSize(presents)
@@ -95,7 +95,10 @@ export class Sleigh {
     while (!result && currentSize <= remainingPackages.length-this.minSize) {
       const targetSum = this.targetSum
       const comboIsValidAmount = this.comboIsValidAmount.bind(this)
-      const callback = (combo) => { if (comboIsValidAmount(combo)) { result = true } }
+      const callback = (combo) => {
+        if (comboIsValidAmount(combo)) { result = true }
+
+      }
 
       Combinatorics.iterateComboWithCallback(remainingPackages, currentSize, callback)
 
