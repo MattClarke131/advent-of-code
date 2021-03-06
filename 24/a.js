@@ -1,0 +1,12 @@
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var sleigh_1 = require("../models/sleigh");
+var pathName = path.join(__dirname, './input.txt');
+var inputStrings = fs.readFileSync(pathName, 'utf-8').split('\n');
+inputStrings.pop();
+var inputNumbers = inputStrings.map(function (s) { return parseInt(s); });
+var sleigh = new sleigh_1.Sleigh(inputNumbers);
+var result = sleigh.getSmallestGroup();
+console.log(result);
