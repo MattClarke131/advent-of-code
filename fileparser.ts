@@ -19,7 +19,7 @@ export default class FileParser {
     return this.inputString.split(', ').map(el => el.trim())
   }
 
-  getArrayFromMultiLine() :any[] {
+  getArrayFromMultiLine() : any[] {
     return this.inputString
       .split('\n')
       .map(el => el.trim())
