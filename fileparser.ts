@@ -18,4 +18,11 @@ export default class FileParser {
   getArrayFromSingleLine() : any[] {
     return this.inputString.split(', ').map(el => el.trim())
   }
+
+  getArrayFromMultiLine() :any[] {
+    return this.inputString
+      .split('\n')
+      .map(el => el.trim())
+      .filter(el => el !== '')
+  }
 }

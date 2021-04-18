@@ -14,6 +14,12 @@ var FileParser = /** @class */ (function () {
     FileParser.prototype.getArrayFromSingleLine = function () {
         return this.inputString.split(', ').map(function (el) { return el.trim(); });
     };
+    FileParser.prototype.getArrayFromMultiLine = function () {
+        return this.inputString
+            .split('\n')
+            .map(function (el) { return el.trim(); })
+            .filter(function (el) { return el !== ''; });
+    };
     return FileParser;
 }());
 exports["default"] = FileParser;
